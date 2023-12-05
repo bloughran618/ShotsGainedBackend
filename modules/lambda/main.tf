@@ -12,54 +12,6 @@ resource "aws_lambda_function" "create_user" {
   ]
 }
 
-#resource "aws_iam_role" "lambda_execution_role" {
-#  name = "${var.app_name}_lambda_execution_role"
-#
-#  assume_role_policy = jsonencode({
-#    Version = "2012-10-17",
-#    Statement = [
-#      {
-#        Action = "sts:AssumeRole",
-#        Effect = "Allow",
-#        Principal = {
-#          Service = "lambda.amazonaws.com",
-#        },
-#      },
-#    ],
-#  })
-#}
-#
-#resource "aws_iam_policy" "lambda_execution_policy" {
-#
-#  name         = "${var.app_name}_lambda_execution_policy"
-#  path         = "/"
-#  description  = "AWS IAM Policy for ${var.app_name} app lambdas"
-#  policy = jsonencode({
-#    "Version": "2012-10-17",
-#    "Statement": [
-#      {
-#        "Action": [
-#          "logs:CreateLogGroup",
-#          "logs:CreateLogStream",
-#          "logs:PutLogEvents",
-#          "dynamodb:PutItem",
-#          "dynamodb:UpdateItem",
-#          "dynamodb:BatchWriteItem",
-#          "dynamodb:GetItem",
-#          "dynamodb:Query",
-#          "dynamodb:Scan",
-#          "dynamodb:BatchGetItem",
-#        ],
-#        "Resource": [
-#          "arn:aws:logs:*:*:*",
-#          var.dynamo_arn
-#        ],
-#        "Effect": "Allow"
-#      }
-#    ]
-#  })
-#}
-
 resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role        = var.lambda_role.name
   policy_arn  = var.lambda_policy.arn

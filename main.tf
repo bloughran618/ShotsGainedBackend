@@ -75,3 +75,15 @@ resource "aws_dynamodb_table" "shotsgained" {
     type = "S"  # String attribute
   }
 }
+
+# terraform backend state
+# depends on creation of remote_state/main.tf
+terraform {
+  backend "s3" {
+    bucket         = "shotsgained-terraform-backend"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "shotsgained-app-state"
+  }
+}
