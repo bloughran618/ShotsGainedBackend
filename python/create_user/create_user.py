@@ -8,18 +8,22 @@ table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
     try:
+        body = json.loads(event.get('body'))
         item = {
-            'userName': event['userName'],
-            'name': event['name']
+            'userName': body['userName'],
+            'name': body['name']
         }
     except KeyError:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Malformed input, either does not include userName or name'}),
+            'body': json.dumps({
+                'error': 'Malformed event body, either does not include userName or name',
+                'input': body
+            }),
         }
 
     try:
-        user_name= event.get('userName')
+        user_name = item.get('userName')
         response = table.get_item(
             Key={
                 'userName': user_name,
@@ -39,11 +43,17 @@ def lambda_handler(event, context):
         print('PutItem succeeded:', response)
         return {
             'statusCode': 200,
-            'body': json.dumps({'message': 'Item added to DynamoDB successfully'}),
+            'body': json.dumps({
+                'message': 'User added to DB successfully',
+                'input': item
+            }),
         }
     except Exception as e:
         print('Error putting item:', str(e))
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': f'Failure putting item {item} into DB'}),
+            'body': json.dumps({
+                'error': f'Failure putting item into DB',
+                'event': event
+            }),
         }

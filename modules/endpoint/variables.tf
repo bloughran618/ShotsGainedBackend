@@ -23,3 +23,9 @@ variable "lambda_policy" {
   description = "The lambda policy to assume"
   type        = any
 }
+
+variable "endpoint_description" {
+  description = "The description for the API endpoint"
+  type        = string
+  default     = "N/A"
+}

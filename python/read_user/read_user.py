@@ -8,7 +8,8 @@ table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
     try:
-        user_name = event['userName']
+        body = json.loads(event.get('body'))
+        user_name = body['userName']
         response = table.get_item(
             Key={
                 'userName': user_name,
@@ -21,19 +22,22 @@ def lambda_handler(event, context):
             print('Item found:', item)
             return {
                 'statusCode': 200,
-                'body': json.dumps({'message': 'Item found', 'item': item}),
+                'body': json.dumps({'message': 'Username found', 'record': item}),
             }
         else:
             print('Item not found')
             return {
                 'statusCode': 404,
-                'body': json.dumps({'error': 'Item not found', 'item': user_name}),
+                'body': json.dumps({'error': 'Username not found', 'userName': user_name}),
             }
 
     except KeyError:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Malformed input, does not include userName'}),
+            'body': json.dumps({
+                'error': 'Malformed input, does not include userName',
+                'input': body
+            }),
         }
 
     except Exception as e:

@@ -11,7 +11,7 @@ variable "app_name" {
 #}
 #
 #variable "create_user_lambda_name" {
-#  description = "The name of the create user lambda"
+#  description = "The name of the create user endpoint"
 #  type        = string
 #  default     = "create_user"
 #}

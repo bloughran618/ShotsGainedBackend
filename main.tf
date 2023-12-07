@@ -50,20 +50,22 @@ resource "aws_iam_policy" "lambda_execution_policy" {
   })
 }
 
-module "create_user_lambda" {
-  source = "./modules/lambda/"
+module "create_user_endpoint" {
+  source = "./modules/endpoint/"
   lambda_dir = "./python/create_user"
   lambda_name = "create_user"
   lambda_role = aws_iam_role.lambda_execution_role
   lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Create a new user"
 }
 
-module "read_user_lambda" {
-  source = "./modules/lambda/"
+module "read_user_endpoint" {
+  source = "./modules/endpoint/"
   lambda_dir = "./python/read_user"
   lambda_name = "read_user"
   lambda_role = aws_iam_role.lambda_execution_role
   lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Fetch the data for a given user"
 }
 
 resource "aws_dynamodb_table" "shotsgained" {

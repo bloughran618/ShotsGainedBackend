@@ -11,3 +11,13 @@ But really you just need
 ```agsl
 terraform apply
 ```
+
+APIGW endpoint examples from terminal:
+create_user
+```commandline
+curl -X POST -H "Content-Type: application/json" -d '{"userName": "terminal", "name": "hehe"}' https://qxzavge998.execute-api.us-east-1.amazonaws.com/prod/create_user
+```
+read_user
+```commandline
+curl -X POST -H "Content-Type: application/json" -d '{"userName": "terminal"}' https://qoe10ch059.execute-api.us-east-1.amazonaws.com/prod/read_user
+```
