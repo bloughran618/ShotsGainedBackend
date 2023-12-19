@@ -71,10 +71,10 @@ module "read_user_endpoint" {
 resource "aws_dynamodb_table" "shotsgained" {
   name           = "${var.app_name}-table"
   billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "userName"
+  hash_key       = "PK"
   attribute {
-    name = "userName"
-    type = "S"  # String attribute
+    name = "PK" # primary key
+    type = "S"  # string attribute
   }
 }
 

@@ -9,8 +9,9 @@ table = dynamodb.Table(table_name)
 def lambda_handler(event, context):
     try:
         body = json.loads(event.get('body'))
+        primary_key = f"USER#{body['userName']}"
         item = {
-            'userName': body['userName'],
+            'PK': primary_key,
             'name': body['name']
         }
     except KeyError:
@@ -23,10 +24,10 @@ def lambda_handler(event, context):
         }
 
     try:
-        user_name = item.get('userName')
+        user_name = body.get('userName')
         response = table.get_item(
             Key={
-                'userName': user_name,
+                'PK': primary_key,
             }
         )
 

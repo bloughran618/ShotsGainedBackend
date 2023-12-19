@@ -10,9 +10,10 @@ def lambda_handler(event, context):
     try:
         body = json.loads(event.get('body'))
         user_name = body['userName']
+        primary_key = f'USER#{user_name}'
         response = table.get_item(
             Key={
-                'userName': user_name,
+                'PK': primary_key,
             }
         )
 
