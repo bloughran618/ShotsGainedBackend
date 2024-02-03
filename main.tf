@@ -68,6 +68,15 @@ module "read_user_endpoint" {
   endpoint_description = "Fetch the data for a given user"
 }
 
+module "calc_shots_gained_endpoint" {
+  source = "./modules/endpoint/"
+  lambda_dir = "./python/calc_shots_gained"
+  lambda_name = "calc_shots_gained"
+  lambda_role = aws_iam_role.lambda_execution_role
+  lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Calculate Shots Gained for a given shot"
+}
+
 resource "aws_dynamodb_table" "shotsgained" {
   name           = "${var.app_name}-table"
   billing_mode   = "PAY_PER_REQUEST"
