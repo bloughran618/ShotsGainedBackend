@@ -17,16 +17,16 @@ terraform apply
 APIGW endpoint examples from terminal:
 create_user
 ```commandline
-curl -X POST -H "Content-Type: application/json" -d '{"userName": "terminal", "name": "hello from terminal"}' https://qxzavge998.execute-api.us-east-1.amazonaws.com/prod/create_user
+curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"terminal\", \"name\": \"hello from terminal\"}" https://qxzavge998.execute-api.us-east-1.amazonaws.com/prod/create_user
 ```
 read_user
 ```commandline
-curl -X POST -H "Content-Type: application/json" -d '{"userName": "terminal"}' https://qoe10ch059.execute-api.us-east-1.amazonaws.com/prod/read_user
+curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"terminal\"}" https://qoe10ch059.execute-api.us-east-1.amazonaws.com/prod/read_user
 ```
 
 calc_shots_gained
 ```commandline
-curl -X POST -H "Content-Type: application/json" -d '{"from": {"distance": 450, "type": "TEE"}, "to": {"distance": 115, "type": "FAIRWAY"}}' https://w3aubvrrb2.execute-api.us-east-1.amazonaws.com/prod/calc_shots_gained
+curl -X POST -H "Content-Type: application/json" -d "{\"from\": {\"distance\": 450, \"type\": \"TEE\"}, \"to\": {\"distance\": 115, \"type\": \"FAIRWAY\"}}" https://w3aubvrrb2.execute-api.us-east-1.amazonaws.com/prod/calc_shots_gained
 ```
 
 

@@ -75,6 +75,21 @@ module "calc_shots_gained_endpoint" {
   lambda_role = aws_iam_role.lambda_execution_role
   lambda_policy = aws_iam_policy.lambda_execution_policy
   endpoint_description = "Calculate Shots Gained for a given shot"
+  layers = [aws_lambda_layer_version.shots_gained_common_lambda_layer.arn]
+}
+
+data "archive_file" "shots_gained_lambda_layer" {
+  type        = "zip"
+  source_dir  = "./python/shots_gained_common/layer/"
+  output_path = "./python/shots_gained_common/layer.zip"
+}
+
+resource "aws_lambda_layer_version" "shots_gained_common_lambda_layer" {
+  filename = data.archive_file.shots_gained_lambda_layer.output_path
+  layer_name = "shots_gained_common_lambda_layer"
+  compatible_runtimes = ["python3.9"]
+
+  source_code_hash = data.archive_file.shots_gained_lambda_layer.output_base64sha256
 }
 
 resource "aws_dynamodb_table" "shotsgained" {

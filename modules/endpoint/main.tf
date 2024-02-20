@@ -4,6 +4,7 @@ resource "aws_lambda_function" "lambda" {
   runtime      = "python3.9"
   filename     = data.archive_file.zip_the_python_code.output_path
   role = var.lambda_role.arn
+  layers = var.layers
   source_code_hash = data.archive_file.zip_the_python_code.output_base64sha256
 
   depends_on = [

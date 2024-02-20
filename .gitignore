@@ -7,3 +7,5 @@ terraform.tfstate.backup
 .idea
 
 python/*/*.zip
+python/*/.DS_Store
+python/*/*/*/.dS_Store

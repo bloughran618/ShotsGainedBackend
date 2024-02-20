@@ -29,3 +29,9 @@ variable "endpoint_description" {
   type        = string
   default     = "N/A"
 }
+
+variable "layers" {
+  description = "Any lambda layers to pass to the lambda function"
+  type        = list
+  default     = []
+}
