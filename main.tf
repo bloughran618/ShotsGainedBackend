@@ -78,6 +78,15 @@ module "calc_shots_gained_endpoint" {
   layers = [aws_lambda_layer_version.shots_gained_common_lambda_layer.arn]
 }
 
+module "create_round_endpoint" {
+  source = "./modules/endpoint/"
+  lambda_dir = "./python/create_round"
+  lambda_name = "create_round"
+  lambda_role = aws_iam_role.lambda_execution_role
+  lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Create a round for a given user"
+}
+
 data "archive_file" "shots_gained_lambda_layer" {
   type        = "zip"
   source_dir  = "./python/shots_gained_common/layer/"

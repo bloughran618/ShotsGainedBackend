@@ -29,4 +29,9 @@ calc_shots_gained
 curl -X POST -H "Content-Type: application/json" -d "{\"from\": {\"distance\": 450, \"type\": \"TEE\"}, \"to\": {\"distance\": 115, \"type\": \"FAIRWAY\"}}" https://w3aubvrrb2.execute-api.us-east-1.amazonaws.com/prod/calc_shots_gained
 ```
 
+create_round
+```commandline
+curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"date\": \"06/18/2023\", \"course\": \"Stanley Golf Course\"}" https://iwptv1bljk.execute-api.us-east-1.amazonaws.com/prod/create_round
+```
+
 

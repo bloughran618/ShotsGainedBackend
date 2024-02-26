@@ -12,7 +12,10 @@ def lambda_handler(event, context):
         primary_key = f"USER#{body['userName']}"
         item = {
             'PK': primary_key,
-            'name': body['name']
+            'name': body['name'],
+            'rounds': [],
+            'friends': [],
+            'stats': {},
         }
     except KeyError:
         return {
