@@ -12,7 +12,9 @@ def lambda_handler(event, context):
         date = body['date']
         course = body['course']
         user_name = body['userName']
-        primary_key = f"USER#{user_name}"
+        round_name = f'{date}-{course}'
+        primary_key = f'USER#{user_name}'
+        secondary_key = f'ROUND#{round_name}'
 
     except KeyError:
         return {
@@ -27,35 +29,32 @@ def lambda_handler(event, context):
         response = table.get_item(
             Key={
                 'PK': primary_key,
+                'SK': secondary_key,
             }
         )
 
-        # Check if the username already exists
-        if 'Item' not in response:
-            print('Username does not exist:', user_name)
+        # Check if username/round combination exists
+        if 'Item' in response:
+            print(f'Round exists for username {user_name}, course {course} and date {date}')
             return {
                 'statusCode': 409,
-                'body': json.dumps({'message': 'Username does not exist', 'userName': user_name}),
+                'body': json.dumps({
+                    'message': 'Round exists for username',
+                    'userName': user_name,
+                    'round': round_name
+                }),
             }
 
-        new_round = [{
-            f"{date}-{course}": {
-                "date": date,
-                "course": course,
-                "holes": []
-            }
-        }]
+        new_round = {
+            'PK': primary_key,
+            'SK': secondary_key,
+            "date": date,
+            "course": course,
+            "holes": [],
+        }
 
-        # Update the item with the new data
-        response = table.update_item(
-            Key={"PK": primary_key},
-            UpdateExpression="set rounds = list_append(rounds, :n)",
-            ExpressionAttributeValues={
-                ":n": new_round
-            },
-            ReturnValues='UPDATED_NEW'  # Optionally, specify the return values
-        )
-
+        response = table.put_item(Item=new_round)
+        print('PutItem succeeded:', response)
         return {
             'statusCode': 200,
             'body': json.dumps({
@@ -68,7 +67,7 @@ def lambda_handler(event, context):
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': f'Failure putting item into DB',
+                'error': f'Failure putting item into DB: {str(e)}',
                 'event': event
             }),
         }

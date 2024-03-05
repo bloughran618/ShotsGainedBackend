@@ -34,4 +34,7 @@ create_round
 curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"date\": \"06/18/2023\", \"course\": \"Stanley Golf Course\"}" https://iwptv1bljk.execute-api.us-east-1.amazonaws.com/prod/create_round
 ```
 
-
+add_hole
+```commandline
+curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"round\": \"06/18/2023-Stanley Golf Course\", \"shots\":[{\"distance\":450,\"type\":\"tee\"},{\"distance\":115,\"type\":\"fairway\"},{\"distance\":10,\"type\":\"green\"}]}" https://w4czh68x0d.execute-api.us-east-1.amazonaws.com/prod/add_hole
+```

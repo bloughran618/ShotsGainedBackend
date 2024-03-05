@@ -10,11 +10,11 @@ def lambda_handler(event, context):
     try:
         body = json.loads(event.get('body'))
         primary_key = f"USER#{body['userName']}"
+        secondary_key = f"PROFILE#{body['userName']}"
         item = {
             'PK': primary_key,
+            'SK': secondary_key,
             'name': body['name'],
-            'rounds': [],
-            'friends': [],
             'stats': {},
         }
     except KeyError:
@@ -31,6 +31,7 @@ def lambda_handler(event, context):
         response = table.get_item(
             Key={
                 'PK': primary_key,
+                'SK': secondary_key,
             }
         )
 
@@ -57,7 +58,7 @@ def lambda_handler(event, context):
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': f'Failure putting item into DB',
+                'error': f'Failure putting item into DB: {str(e)}',
                 'event': event
             }),
         }

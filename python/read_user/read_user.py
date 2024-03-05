@@ -1,9 +1,20 @@
 import json
 import boto3
 
+from boto3.dynamodb.conditions import Key
+from decimal import Decimal
+
+
 dynamodb = boto3.resource('dynamodb')
 table_name = 'shotsgained-table'
 table = dynamodb.Table(table_name)
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Decimal):
+            return str(o)
+        return super().default(o)
 
 
 def lambda_handler(event, context):
@@ -11,19 +22,20 @@ def lambda_handler(event, context):
         body = json.loads(event.get('body'))
         user_name = body['userName']
         primary_key = f'USER#{user_name}'
-        response = table.get_item(
-            Key={
-                'PK': primary_key,
-            }
+        response = table.query(
+            KeyConditionExpression=Key('PK').eq(primary_key)
         )
 
         # Check if the item was found
-        if 'Item' in response:
-            item = response['Item']
-            print('Item found:', item)
+        if 'Items' in response:
+            items = response.get('Items')
+            print(f'found items: {items}')
             return {
                 'statusCode': 200,
-                'body': json.dumps({'message': 'Username found', 'record': item}),
+                'body': json.dumps(
+                    {'message': 'Username found', 'record': items},
+                    cls=DecimalEncoder
+                )
             }
         else:
             print('Item not found')
@@ -45,5 +57,8 @@ def lambda_handler(event, context):
         print('Error reading item:', str(e))
         return {
             'statusCode': 500,
-            'body': json.dumps({'error': 'Internal server error'}),
+            'body': json.dumps({
+                'error': f'Failure reading the user: {str(e)}',
+                'event': event
+            }),
         }

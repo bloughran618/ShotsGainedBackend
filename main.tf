@@ -87,6 +87,16 @@ module "create_round_endpoint" {
   endpoint_description = "Create a round for a given user"
 }
 
+module "add_hole_endpoint" {
+  source = "./modules/endpoint/"
+  lambda_dir = "./python/add_hole"
+  lambda_name = "add_hole"
+  lambda_role = aws_iam_role.lambda_execution_role
+  lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Add a hole to a given round"
+  layers = [aws_lambda_layer_version.shots_gained_common_lambda_layer.arn]
+}
+
 data "archive_file" "shots_gained_lambda_layer" {
   type        = "zip"
   source_dir  = "./python/shots_gained_common/layer/"
@@ -105,9 +115,23 @@ resource "aws_dynamodb_table" "shotsgained" {
   name           = "${var.app_name}-table"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "PK"
+  range_key     = "SK"
   attribute {
     name = "PK" # primary key
     type = "S"  # string attribute
+  }
+  attribute {
+    name = "SK" # secondary key
+    type = "S"  # string attribute
+  }
+  # Define global secondary index for querying by different attributes
+  global_secondary_index {
+    name               = "GSI1"
+    hash_key           = "SK"
+    range_key          = "PK"
+    projection_type    = "ALL"
+    write_capacity     = 5
+    read_capacity      = 5
   }
 }
 
