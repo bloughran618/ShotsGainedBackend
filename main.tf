@@ -97,6 +97,15 @@ module "add_hole_endpoint" {
   layers = [aws_lambda_layer_version.shots_gained_common_lambda_layer.arn]
 }
 
+module "finish_round_endpoint" {
+  source = "./modules/endpoint/"
+  lambda_dir = "./python/finish_round"
+  lambda_name = "finish_round"
+  lambda_role = aws_iam_role.lambda_execution_role
+  lambda_policy = aws_iam_policy.lambda_execution_policy
+  endpoint_description = "Finish the round and aggregate all stats"
+}
+
 data "archive_file" "shots_gained_lambda_layer" {
   type        = "zip"
   source_dir  = "./python/shots_gained_common/layer/"

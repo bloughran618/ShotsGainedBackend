@@ -1,6 +1,7 @@
 import boto3
 from decimal import Decimal
 import json
+import traceback
 
 dynamodb = boto3.resource('dynamodb')
 table_name = 'shotsgained-table'
@@ -35,7 +36,7 @@ def lambda_handler(event, context):
             }
         )
 
-        # Check if the username already exists
+        # Check if there is a round for the given username
         if 'Item' not in response:
             print(f'Round {round_name} does not exist for user {user_name}')
             return {
@@ -86,11 +87,11 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
-        print('Error putting item:', str(e))
+        print('Error adding hole: ', traceback.format_exc())
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'error': f'Failure putting item into DB: {str(e)}',
+                'error': f'Failure adding hole {shots} to round {round_name}: {str(e)}',
                 'event': event
             }),
         }

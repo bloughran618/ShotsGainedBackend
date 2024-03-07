@@ -1,4 +1,6 @@
 import json
+import traceback
+
 import boto3
 
 dynamodb = boto3.resource('dynamodb')
@@ -63,7 +65,7 @@ def lambda_handler(event, context):
             }),
         }
     except Exception as e:
-        print('Error putting item:', str(e))
+        print(f'Error creating round {round_name} for user {user_name}:', traceback.format_exc())
         return {
             'statusCode': 500,
             'body': json.dumps({

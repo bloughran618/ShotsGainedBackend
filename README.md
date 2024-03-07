@@ -38,3 +38,8 @@ add_hole
 ```commandline
 curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"round\": \"06/18/2023-Stanley Golf Course\", \"shots\":[{\"distance\":450,\"type\":\"tee\"},{\"distance\":115,\"type\":\"fairway\"},{\"distance\":10,\"type\":\"green\"}]}" https://w4czh68x0d.execute-api.us-east-1.amazonaws.com/prod/add_hole
 ```
+
+finish_round
+```commandline
+curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"round\": \"06/18/2023-Stanley Golf Course\"}" https://70ir634x4c.execute-api.us-east-1.amazonaws.com/prod/finish_round
+```
