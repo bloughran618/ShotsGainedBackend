@@ -20,7 +20,6 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 
 resource "aws_iam_policy" "lambda_execution_policy" {
-
   name         = "${var.app_name}_lambda_execution_policy"
   path         = "/"
   description  = "AWS IAM Policy for ${var.app_name} app lambdas"

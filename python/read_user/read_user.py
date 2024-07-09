@@ -29,8 +29,8 @@ def lambda_handler(event, context):
         )
 
         # Check if the item was found
-        if 'Items' in response:
-            items = response.get('Items')
+        items = response.get('Items')
+        if items:
             print(f'found items: {items}')
             return {
                 'statusCode': 200,

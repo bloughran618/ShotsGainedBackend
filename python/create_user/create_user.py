@@ -11,6 +11,7 @@ table = dynamodb.Table(table_name)
 def lambda_handler(event, context):
     try:
         body = json.loads(event.get('body'))
+        user_name = body['userName']
         primary_key = f"USER#{body['userName']}"
         secondary_key = f"PROFILE#{body['userName']}"
         item = {
@@ -29,7 +30,6 @@ def lambda_handler(event, context):
         }
 
     try:
-        user_name = body.get('userName')
         response = table.get_item(
             Key={
                 'PK': primary_key,

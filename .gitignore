@@ -5,6 +5,7 @@ terraform.tfstate.backup
 *.tfplan
 
 .idea
+*__pycache__*
 
 python/*/*.zip
 python/*/.DS_Store

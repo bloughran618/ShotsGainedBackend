@@ -44,12 +44,14 @@ def lambda_handler(event, context):
                 'body': json.dumps({'message': 'Round does not exist', 'userName': user_name, 'round': round_name}),
             }
 
-        # populate shots with shotsgained for each hole
-        if len(shots) == 0:
+        # check that shots are present
+        if not shots or len(shots) == 0:
             return {
                 'statusCode': 404,
-                'body': json.dumps({'message': 'No shots found', 'shots': shots}),
+                'body': json.dumps({'message': 'No shots found in request', 'shots': shots}),
             }
+
+        # populate shots with shotsgained for each hole
         for shot_ind, shot in enumerate(shots):
             if shot_ind == len(shots) - 1:
                 shots_gained = sgc.get_shot_gained(

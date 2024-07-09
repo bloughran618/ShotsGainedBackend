@@ -1,3 +1,4 @@
+### ShotsGainedBackend
 This repo is the backend for ShotGained golf shot tracking and improvement app
 
 Some commands
@@ -43,3 +44,11 @@ finish_round
 ```commandline
 curl -X POST -H "Content-Type: application/json" -d "{\"userName\": \"bloughran\", \"round\": \"06/18/2023-Stanley Golf Course\"}" https://70ir634x4c.execute-api.us-east-1.amazonaws.com/prod/finish_round
 ```
+
+### TODO:
+- Show how to run unittests locally
+- Show how to run integration tests locally 
+- Show how to run all tests locally
+- Finish integration tests
+- Replicate beta/gamma env's
+- Break out lambda_execution_policy permissions

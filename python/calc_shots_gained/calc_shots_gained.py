@@ -7,8 +7,8 @@ import shots_gained_common as sgc
 def lambda_handler(event, context):
     # expecting event like
     # {
-    #   from: {distance: 450, type: TEE},
-    #   to: {distance: 115, type: FAIRWAY}
+    #   'from': {'distance': 450, 'type': 'TEE'},
+    #   'to': {'distance': 115, 'type': 'FAIRWAY'}
     # }
     logging.info(f"the event: {event}")
     try:
@@ -21,7 +21,8 @@ def lambda_handler(event, context):
         return {
             'statusCode': 400,
             'body': json.dumps({
-                'error': 'Malformed event body, does not look like # {from: {distance: 450, type: TEE}, to: {distance: 115, type: FAIRWAY}}',
+                'error': "Malformed event body, does not look like # {'from': {'distance': 450, 'type': 'TEE'}, "
+                         "'to': {'distance': 115, 'type': 'FAIRWAY'}}",
                 'input': body
             }),
         }
@@ -34,15 +35,3 @@ def lambda_handler(event, context):
             'shots_gained': shots_gained
         }),
     }
-
-
-# eventual tests
-# print(lookup_shot_gained(450, "Tee"))
-# # print(lookup_shot_gained(450, "House"))
-# print(lookup_shot_gained(115, "Fairway"))
-# print(lookup_shot_gained(10, "Green"))
-# print(lookup_shot_gained(900, "ROUGH"))
-#
-# print(get_shot_gained(450, "Tee", 115, "Fairway"))
-# print(get_shot_gained(115, "fairway", 10, "GREEN"))
-# print(get_shot_gained(10, "Green", 0, "asdf"))

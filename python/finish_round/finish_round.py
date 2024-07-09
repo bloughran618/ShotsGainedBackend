@@ -155,7 +155,7 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 200,
                 'body': json.dumps({
-                    'message': f'Round {round_name} finished',
+                    'message': f'Round finished for {round_name}',
                     'round_stats': round_stats
                 },
                     cls=DecimalEncoder
